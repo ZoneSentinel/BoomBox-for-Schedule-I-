@@ -1,0 +1,3 @@
+E:\Games\Schedule I - Copie\BoomboxMod\obj\Debug\net472\YouTubeTVMod.csproj.AssemblyReference.cache
+E:\Games\Schedule I - Copie\BoomboxMod\obj\Debug\net472\YouTubeTVMod.GeneratedMSBuildEditorConfig.editorconfig
+E:\Games\Schedule I - Copie\BoomboxMod\obj\Debug\net472\YouTubeTVMod.csproj.CoreCompileInputs.cache

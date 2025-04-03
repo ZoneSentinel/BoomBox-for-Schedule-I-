@@ -1,0 +1,78 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <!-- Change TargetFramework if your game uses a different .NET version -->
+    <TargetFramework>netstandard2.1</TargetFramework>
+    <AssemblyName>BoomboxMod</AssemblyName>
+    <Description>Play YouTube videos on in-game TVs</Description>
+    <Version>1.0.0</Version>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+    <LangVersion>latest</LangVersion>
+    <!-- !!! IMPORTANT: Set this to your ACTUAL Game Folder !!! -->
+    <GameDir>E:\\Games\\Schedule I - Copie\\</GameDir>
+
+    <!-- Stop MSBuild from generating AssemblyInfo attributes -->
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <!-- MelonLoader Dependencies -->
+    <!-- Verify these paths match your installation relative to GameDir -->
+    <Reference Include="MelonLoader">
+      <HintPath>$(GameDir)\\MelonLoader\\net6\\MelonLoader.dll</HintPath>
+       <Private>false</Private>
+    </Reference>
+     <Reference Include="0Harmony">
+      <HintPath>$(GameDir)\\MelonLoader\\net6\\0Harmony.dll</HintPath>
+       <Private>false</Private>
+    </Reference>
+
+    <!-- Il2Cpp Interop Libs -->
+     <Reference Include="Il2CppInterop.Runtime">
+        <HintPath>$(GameDir)\\MelonLoader\\net6\\Il2CppInterop.Runtime.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="Il2CppInterop.Common">
+        <HintPath>$(GameDir)\\MelonLoader\\net6\\Il2CppInterop.Common.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    
+    <!-- Unity/Game assemblies -->
+    <Reference Include="UnityEngine">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.CoreModule">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.CoreModule.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.VideoModule">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.VideoModule.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.AudioModule">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.AudioModule.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.IMGUIModule">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.IMGUIModule.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+    <Reference Include="UnityEngine.InputLegacyModule">
+        <HintPath>$(GameDir)\\MelonLoader\\Dependencies\\Il2CppAssemblyGenerator\\Cpp2IL\\cpp2il_out\\UnityEngine.InputLegacyModule.dll</HintPath>
+        <Private>false</Private>
+    </Reference>
+
+    <!-- Mod Dependencies (Handled by NuGet) -->
+    <PackageReference Include="YoutubeExplode" Version="6.3.11" />
+
+  </ItemGroup>
+
+  <!-- This target copies the compiled DLL to the Mods folder after build -->
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Copy SourceFiles="$(TargetPath)" DestinationFolder="$(GameDir)\Mods" Condition="Exists('$(GameDir)\\Mods')" />
+    <Message Text="Copied $(TargetFileName) to $(GameDir)\Mods" Importance="high" Condition="Exists('$(GameDir)\\Mods')" />
+    <Message Text="Mods directory not found at $(GameDir)\Mods. DLL not copied." Importance="warning" Condition="!Exists('$(GameDir)\\Mods')" />
+  </Target>
+
+</Project>
